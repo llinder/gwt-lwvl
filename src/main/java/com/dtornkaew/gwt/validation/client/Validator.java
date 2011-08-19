@@ -17,4 +17,6 @@ public abstract class Validator
     {
         required = value;
     }
+    
+    public abstract ValidationResult validate();
 }
