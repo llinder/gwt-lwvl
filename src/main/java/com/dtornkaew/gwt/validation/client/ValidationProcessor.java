@@ -22,7 +22,7 @@ public interface ValidationProcessor
      * @param action The global action
      * @return A reference to this <code>ValidationProcessor</code>'s instance for chaining.
      */
-    public ValidationProcessor addGlobalAction( ValidationAction<?> action );
+    public ValidationProcessor addGlobalAction( ValidationAction action );
 
     /**
      * Invoke the validation.
@@ -61,7 +61,7 @@ public interface ValidationProcessor
      * 
      * @param instancesToRemove The instances to remove
      */
-    public void removeGlobalActions( ValidationAction<?>... instancesToRemove );
+    public void removeGlobalActions( ValidationAction... instancesToRemove );
 
     /**
      * Returns all the validators associated with the given name

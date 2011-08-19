@@ -6,19 +6,19 @@ import java.util.List;
 import com.dtornkaew.gwt.validation.client.i18n.MessageProvider;
 
 public class ValidationResult
-{
-    public class ValidationError
+{    
+    public class ValidationError<C>
     {
-        private final MessageProvider messageProvider;
+        private final MessageProvider<C> messageProvider;
         
-        private final int code;
+        private final C code;
         
-        public ValidationError( int code, MessageProvider messageProvider )
+        public ValidationError( C code, MessageProvider<C> messageProvider )
         {
             this.code = code;
             this.messageProvider = messageProvider;
         }
-        public int getCode()
+        public C getCode()
         {
             return code;
         }
@@ -28,13 +28,19 @@ public class ValidationResult
         }
     }
     
-    private List<ValidationError> errors;
+    private final List<ValidationError<?>> errors;
     
     private final Validator validator;
     
     public ValidationResult( Validator validator )
     {
         this.validator = validator;
+        this.errors = new LinkedList<ValidationError<?>>();
+    }
+    
+    public void addError( ValidationError<?> error )
+    {
+        this.errors.add( error );
     }
     
     public Validator getValidator()
@@ -42,7 +48,7 @@ public class ValidationResult
         return validator;
     }
     
-    public List<ValidationError> getErrors()
+    public List<ValidationError<?>> getErrors()
     {
         return errors;
     }
@@ -50,7 +56,7 @@ public class ValidationResult
     public List<String> getMessages()
     {
         List<String> msgs = new LinkedList<String>();
-        for( ValidationError error : errors )
+        for( ValidationError<?> error : errors )
         {
             msgs.add( error.getMessage() );
         }

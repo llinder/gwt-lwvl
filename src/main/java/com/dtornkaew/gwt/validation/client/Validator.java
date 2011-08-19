@@ -5,7 +5,7 @@ import java.util.List;
 
 public abstract class Validator
 {
-    protected List<ValidationAction<?>> actions = new LinkedList<ValidationAction<?>>();
+    protected List<ValidationAction> actions = new LinkedList<ValidationAction>();
     
     private boolean required = true;
     

@@ -8,7 +8,7 @@
 	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>GWT Light Weight Validation Library</name>
-	
+
 	<properties>
 		<gwt.version>2.3.0</gwt.version>
 		<gwt.mojo.version>2.3.0-1</gwt.mojo.version>
@@ -31,7 +31,7 @@
 		</resources>
 
 		<plugins>
-			
+
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>gwt-maven-plugin</artifactId>
@@ -70,6 +70,13 @@
 			<artifactId>gwt-user</artifactId>
 			<version>${gwt.version}</version>
 			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.2</version>
+			<scope>test</scope>
 		</dependency>
 
 	</dependencies>
