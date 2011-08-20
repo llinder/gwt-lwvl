@@ -5,6 +5,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import com.dtornkaew.gwt.validation.client.ValidationResult;
+import com.dtornkaew.gwt.validation.client.Validator.BaseMessageBundle;
 import com.dtornkaew.gwt.validation.client.validators.NumberValidator.NumberMessageBundle;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
@@ -14,12 +15,26 @@ import com.google.gwt.user.client.ui.HasValue;
 public class NumberValidatorTest
 {
     @Test
+    public void testRequired()
+    {
+        Dummy d = new Dummy();
+        
+        NumberValidator v = new NumberValidator( d, new Msg() );
+        
+        ValidationResult r = v.validate();
+        
+        Assert.assertNotNull( r );
+        
+        Assert.assertEquals( 1, r.getErrors().size() );
+    }
+    
+    @Test
     public void testValid()
     {
         Dummy d = new Dummy();
         d.setValue( "5" );
         
-        NumberValidator v = new NumberValidator( new Msg(), d );
+        NumberValidator v = new NumberValidator( d, new Msg() );
         v.setMinValue( 5d );
         v.setMaxValue( 10d );
         
@@ -36,7 +51,7 @@ public class NumberValidatorTest
         Dummy d = new Dummy();
         d.setValue( "5" );
         
-        NumberValidator v = new NumberValidator( new Msg(), d );
+        NumberValidator v = new NumberValidator( d, new Msg() );
         v.setMinValue( 6d );
         v.setMaxValue( 10d );
         
@@ -45,6 +60,8 @@ public class NumberValidatorTest
         Assert.assertNotNull( r );
         
         Assert.assertEquals( 1, r.getErrors().size() );
+        
+        Assert.assertEquals( "to low", r.getErrors().get( 0 ).getMessage() );
     }
     
     @Test
@@ -53,7 +70,7 @@ public class NumberValidatorTest
         Dummy d = new Dummy();
         d.setValue( "5" );
         
-        NumberValidator v = new NumberValidator( new Msg(), d );
+        NumberValidator v = new NumberValidator( d, new Msg() );
         v.setMinValue( 2d );
         v.setMaxValue( 4d );
         
@@ -62,24 +79,28 @@ public class NumberValidatorTest
         Assert.assertNotNull( r );
         
         Assert.assertEquals( 1, r.getErrors().size() );
+        
+        Assert.assertEquals( "to high", r.getErrors().get( 0 ).getMessage() );
     }
 }
 
-class Msg implements NumberMessageBundle
+class Msg implements NumberMessageBundle, BaseMessageBundle
 {
 
-    public String number_lowerThanMin( String min, String max )
+    public String validations_base_required()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return "required";
     }
 
-    public String number_exceedsMax( String min, String max )
+    public String validation_number_lowerThanMin( String min, String max )
     {
-        // TODO Auto-generated method stub
-        return null;
+        return "to low";
     }
-    
+
+    public String validation_number_exceedsMax( String min, String max )
+    {
+        return "to high";
+    } 
 }
 
 class Dummy implements HasValue<String>

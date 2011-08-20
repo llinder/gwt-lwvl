@@ -11,7 +11,7 @@ public interface ValidationProcessor
      * @param logical grouping name for the validators.
      * @param validator The validators that will be used for validations
      */
-    public ValidationProcessor addValidators( String name, Validator... validator );
+    public ValidationProcessor addValidators( String name, Validator<?>... validator );
 
     /**
      * Adds an global action to this <code>ValidatorProcessor</code> instance. This is primarily useful for actions that
@@ -32,6 +32,16 @@ public interface ValidationProcessor
      * @return <code>true</code> if all validations were successful, <code>false</code> otherwise
      */
     public boolean validate( String... names );
+    
+    /**
+     * Resets all the actions specified by a possibly failed previous validation run.
+     * If the names parameter is given only the specified validator actions are reset.
+     * 
+     * @param names The names of the validations that should be reset, can be <code>null</code> to reset everything.
+     */
+    public void reset(String... names);
+    
+    public List<ValidationResult> getInvalidResults();
 
     /**
      * Removes all validators.
@@ -69,20 +79,20 @@ public interface ValidationProcessor
      * @param name
      * @return The validators found
      */
-    public List<Validator> getValidators( String name );
+    public List<Validator<?>> getValidators( String name );
 
     /**
      * Return all the validators currently added to the validation processor
      * 
      * @return All the validators
      */
-    public Map<String, List<Validator>> getAllValidators();
+    public Map<String, List<Validator<?>>> getAllValidators();
 
     /**
      * Cleans the currently set validators and sets to the specified validators
      * 
      * @param validators The validators to set for this ValidationProcessor instance
      */
-    public void setValidators( Map<String, List<Validator>> validators );
+    public void setValidators( Map<String, List<Validator<?>>> validators );
 
 }

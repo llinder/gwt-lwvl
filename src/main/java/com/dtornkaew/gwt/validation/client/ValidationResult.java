@@ -30,9 +30,9 @@ public class ValidationResult
     
     private final List<ValidationError<?>> errors;
     
-    private final Validator validator;
+    private final Validator<?> validator;
     
-    public ValidationResult( Validator validator )
+    public ValidationResult( Validator<?> validator )
     {
         this.validator = validator;
         this.errors = new LinkedList<ValidationError<?>>();
@@ -43,7 +43,7 @@ public class ValidationResult
         this.errors.add( error );
     }
     
-    public Validator getValidator()
+    public Validator<?> getValidator()
     {
         return validator;
     }
