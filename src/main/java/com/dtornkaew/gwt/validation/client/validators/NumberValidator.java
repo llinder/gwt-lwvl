@@ -3,42 +3,43 @@ package com.dtornkaew.gwt.validation.client.validators;
 import java.util.NoSuchElementException;
 
 import com.dtornkaew.gwt.validation.client.ValidationResult;
-import com.dtornkaew.gwt.validation.client.Validator;
 import com.dtornkaew.gwt.validation.client.i18n.MessageProvider;
 import com.dtornkaew.gwt.validation.client.validators.NumberValidator.ErrorCodes;
 import com.dtornkaew.gwt.validation.client.validators.NumberValidator.NumberMessageBundle;
 import com.google.gwt.i18n.client.Messages;
 import com.google.gwt.user.client.ui.HasValue;
 
-public class NumberValidator
-    extends Validator<HasValue<String>>
+public class NumberValidator<N>
+    extends RequiredValidator<HasValue<?>>
 {    
-    double minValue = 0;
+    N minValue;
     
-    double maxValue = 0;
+    N maxValue;
     
     private final MessageProvider<ErrorCodes> messageProvider;
     
-    public NumberValidator( HasValue<String> target, Messages ... messages )
+    public NumberValidator( HasValue<?> target, Messages ... messages )
     {
         super( target, messages );
         messageProvider = new NumberMessageProvider( this, messages );
     }
     
-    public void setMinValue( double min )
+    public NumberValidator<N> setMinValue( N min )
     {
         minValue = min;
+        return this;
     }
-    public double getMinValue()
+    public N getMinValue()
     {
         return minValue;
     }
     
-    public void setMaxValue( double max )
+    public NumberValidator<N> setMaxValue( N max )
     {
         maxValue = max;
+        return this;
     }
-    public double getMaxValue()
+    public N getMaxValue()
     {
         return maxValue;
     }
@@ -54,15 +55,37 @@ public class NumberValidator
             if( v == null || "".equals( v ) )
                 v = "0";
             
-            final Double d = Double.valueOf( v );
-            
-            if( d < minValue )
+            if( minValue instanceof Double )
             {
-                result.addError( result.new ValidationError<ErrorCodes>( ErrorCodes.LOWER_THAN_MIN, messageProvider ) );
+                final Double d = Double.valueOf( v );
+                if( minValue != null && d < (Double)minValue )
+                    result.addError( result.new ValidationError<ErrorCodes>( ErrorCodes.LOWER_THAN_MIN, messageProvider ) );
+                else if( maxValue != null && d > (Double)maxValue )
+                    result.addError( result.new ValidationError<ErrorCodes>( ErrorCodes.EXCEEDS_MAX, messageProvider ) );
             }
-            else if( d > maxValue )
+            else if( minValue instanceof Integer )
             {
-                result.addError( result.new ValidationError<ErrorCodes>( ErrorCodes.EXCEEDS_MAX, messageProvider ) );
+                final Integer i = Integer.valueOf( v );
+                if( minValue != null && i < (Integer)minValue )
+                    result.addError( result.new ValidationError<ErrorCodes>( ErrorCodes.LOWER_THAN_MIN, messageProvider ) );
+                else if( maxValue != null && i > (Integer)maxValue )
+                    result.addError( result.new ValidationError<ErrorCodes>( ErrorCodes.EXCEEDS_MAX, messageProvider ) );
+            }
+            else if( minValue instanceof Float )
+            {
+                final Float f = Float.valueOf( v );
+                if( minValue != null && f < (Float)minValue )
+                    result.addError( result.new ValidationError<ErrorCodes>( ErrorCodes.LOWER_THAN_MIN, messageProvider ) );
+                else if( maxValue != null && f > (Float)maxValue )
+                    result.addError( result.new ValidationError<ErrorCodes>( ErrorCodes.EXCEEDS_MAX, messageProvider ) );
+            }
+            else if( minValue instanceof Long )
+            {
+                final Long l = Long.valueOf( v );
+                if( minValue != null && l < (Long)minValue )
+                    result.addError( result.new ValidationError<ErrorCodes>( ErrorCodes.LOWER_THAN_MIN, messageProvider ) );
+                else if( maxValue != null && l > (Long)maxValue )
+                    result.addError( result.new ValidationError<ErrorCodes>( ErrorCodes.EXCEEDS_MAX, messageProvider ) );
             }
         }
         
@@ -97,9 +120,9 @@ class NumberMessageProvider implements MessageProvider<ErrorCodes>
 {
     private final NumberMessageBundle bundle;
     
-    private final NumberValidator validator;
+    private final NumberValidator<?> validator;
     
-    NumberMessageProvider( NumberValidator validator, Messages[] messages )
+    NumberMessageProvider( NumberValidator<?> validator, Messages[] messages )
     {
         this.bundle = getBundle( messages );
         this.validator = validator;

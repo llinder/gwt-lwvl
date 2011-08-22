@@ -57,11 +57,14 @@ public class SimpleValidationProcessorImpl
             List<Validator<?>> vlist = validators.get( key );
             for( Validator<?> v : vlist )
             {
-                ValidationResult r = v.validate();
-                if( r.getErrors().size() > 0 )
+                if( v.isEnabled() )
                 {
-                    invalidResults.add( r );
-                    v.performActions( r );
+                    ValidationResult r = v.validate();
+                    if( r.getErrors().size() > 0 )
+                    {
+                        invalidResults.add( r );
+                        v.performActions( r );
+                    }
                 }
             }
         }
