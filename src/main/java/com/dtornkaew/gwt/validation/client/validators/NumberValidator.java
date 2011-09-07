@@ -1,16 +1,17 @@
 package com.dtornkaew.gwt.validation.client.validators;
 
-import java.util.NoSuchElementException;
+import java.text.MessageFormat;
 
 import com.dtornkaew.gwt.validation.client.ValidationResult;
+import com.dtornkaew.gwt.validation.client.Validator;
+import com.dtornkaew.gwt.validation.client.Validator.HasValue;
+import com.dtornkaew.gwt.validation.client.Validator.ValidationMessageBundle;
 import com.dtornkaew.gwt.validation.client.i18n.MessageProvider;
 import com.dtornkaew.gwt.validation.client.validators.NumberValidator.ErrorCodes;
-import com.dtornkaew.gwt.validation.client.validators.NumberValidator.NumberMessageBundle;
 import com.google.gwt.i18n.client.Messages;
-import com.google.gwt.user.client.ui.HasValue;
 
 public class NumberValidator<N>
-    extends RequiredValidator<HasValue<?>>
+    extends RequiredValidator<HasValue<N>>
 {    
     N minValue;
     
@@ -18,10 +19,20 @@ public class NumberValidator<N>
     
     private final MessageProvider<ErrorCodes> messageProvider;
     
-    public NumberValidator( HasValue<?> target, Messages ... messages )
+    public NumberValidator( HasValue<N> target, ValidationMessageBundle bundle )
     {
-        super( target, messages );
-        messageProvider = new NumberMessageProvider( this, messages );
+        this( DEFAULT_PREFIX, DEFAULT_KEY, target, bundle );
+    }
+    
+    public NumberValidator( String prefix, HasValue<N> target, ValidationMessageBundle bundle )
+    {
+        this( prefix, DEFAULT_KEY, target, bundle );
+    }
+    
+    public NumberValidator( String prefix, String key, HasValue<N> target, ValidationMessageBundle bundle )
+    {
+        super( prefix, key, target, bundle );
+        messageProvider = new NumberMessageProvider( prefix, this, bundle );
     }
     
     public NumberValidator<N> setMinValue( N min )
@@ -118,37 +129,41 @@ public class NumberValidator<N>
 
 class NumberMessageProvider implements MessageProvider<ErrorCodes>
 {
-    private final NumberMessageBundle bundle;
+    private final ValidationMessageBundle bundle;
+    
+    private final String prefix;
     
     private final NumberValidator<?> validator;
     
-    NumberMessageProvider( NumberValidator<?> validator, Messages[] messages )
+    NumberMessageProvider( NumberValidator<?> validator, ValidationMessageBundle bundle )
     {
-        this.bundle = getBundle( messages );
+        this( Validator.DEFAULT_PREFIX, validator, bundle );
+    }
+    
+    NumberMessageProvider( String prefix, NumberValidator<?> validator, ValidationMessageBundle bundle )
+    {
+        this.prefix = prefix;
+        this.bundle = bundle;
         this.validator = validator;
     }
     
-    // Can't find way to make this a generic lookup and still work with GWT
-    private NumberMessageBundle getBundle( Messages[] messages )
-    {
-        for( Messages m : messages )
-            if( m instanceof NumberMessageBundle )
-                return (NumberMessageBundle)m;
-     
-        throw new NoSuchElementException( "Message bundle, DoubleMessageBundle, doesn't exist." );
-    }
-          
-    
     public String getMessage( ErrorCodes code )
-    {
+    {       
+        String message = null;
+        
         switch( code )
         {
             case LOWER_THAN_MIN:
-                return bundle.validation_number_lowerThanMin( String.valueOf( validator.minValue ), String.valueOf( validator.maxValue ) );
+                message = bundle.getString( prefix+"number_lowerThanMin" );
+                break;
             case EXCEEDS_MAX:
-                return bundle.validation_number_exceedsMax( String.valueOf( validator.minValue ), String.valueOf( validator.maxValue ) );
-            default:
-                return "";
+                message = bundle.getString( prefix+"number_exceedsMax" );
+                break;
         }
+        
+        if( message != null )
+            return MessageFormat.format( message, validator.minValue, validator.maxValue );
+        else
+            return "";
     }
 }

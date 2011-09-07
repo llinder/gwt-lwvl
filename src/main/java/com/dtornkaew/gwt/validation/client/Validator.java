@@ -4,20 +4,31 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.google.gwt.i18n.client.Messages;
+import com.google.gwt.i18n.client.ConstantsWithLookup;
 
 public abstract class Validator<T>
 {
+    public static final String DEFAULT_PREFIX = "validation_";
+    public static final String DEFAULT_KEY = "key";
+    
     private List<ValidationAction> actions = new LinkedList<ValidationAction>();
 
     protected final T target;
 
     private boolean enabled;
     
-    public Validator( T target, Messages[] messages )
+    private final String key;
+    
+    public Validator( String key, T target )
     {
         this.target = target;
         this.enabled = true;
+        this.key = key;
+    }
+    
+    public String getKey()
+    {
+        return key;
     }
     
     public boolean isEnabled()
@@ -60,4 +71,13 @@ public abstract class Validator<T>
 
     protected abstract Object getValue();
 
+    public interface ValidationMessageBundle extends ConstantsWithLookup
+    {
+        
+    }
+    
+    public interface HasValue<T>
+    {
+        public T getValue();
+    }
 }

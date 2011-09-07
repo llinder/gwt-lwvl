@@ -1,22 +1,22 @@
 package com.dtornkaew.gwt.validation.client.validators;
 
+import java.util.Map;
+import java.util.MissingResourceException;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
 
 import com.dtornkaew.gwt.validation.client.ValidationResult;
-import com.dtornkaew.gwt.validation.client.validators.RequiredValidator.RequiredMessageBundle;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.ui.HasValue;
+import com.dtornkaew.gwt.validation.client.Validator.HasValue;
+import com.dtornkaew.gwt.validation.client.Validator.ValidationMessageBundle;
 
 public class HasTrueValidatorTest
 {
     @Test
     public void testRequiredOk()
     {
-        final RequiredMessageBundle bundle = new Msg();
+        final ValidationMessageBundle bundle = new Msg();
         
         Dummy[] values = new Dummy[]{
             new Dummy( true ),
@@ -33,7 +33,7 @@ public class HasTrueValidatorTest
     @Test
     public void testRequiredFail()
     {
-        final RequiredMessageBundle bundle = new Msg();
+        final ValidationMessageBundle bundle = new Msg();
         
         Dummy[] values = new Dummy[]{
             new Dummy( false ),
@@ -48,12 +48,64 @@ public class HasTrueValidatorTest
     }
     
     
-    class Msg implements RequiredMessageBundle
+    class Msg implements ValidationMessageBundle
     {
-        public String validations_required_required()
+
+        @Override
+        public boolean getBoolean( String methodName )
+            throws MissingResourceException
+        {
+            // TODO Auto-generated method stub
+            return false;
+        }
+
+        @Override
+        public double getDouble( String methodName )
+            throws MissingResourceException
+        {
+            // TODO Auto-generated method stub
+            return 0;
+        }
+
+        @Override
+        public float getFloat( String methodName )
+            throws MissingResourceException
+        {
+            // TODO Auto-generated method stub
+            return 0;
+        }
+
+        @Override
+        public int getInt( String methodName )
+            throws MissingResourceException
+        {
+            // TODO Auto-generated method stub
+            return 0;
+        }
+
+        @Override
+        public Map<String, String> getMap( String methodName )
+            throws MissingResourceException
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String getString( String methodName )
+            throws MissingResourceException
         {
             return "required";
-        } 
+        }
+
+        @Override
+        public String[] getStringArray( String methodName )
+            throws MissingResourceException
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+        
     }
 
     class Dummy implements HasValue<Boolean>
@@ -66,37 +118,10 @@ public class HasTrueValidatorTest
         }
 
         @Override
-        public HandlerRegistration addValueChangeHandler( ValueChangeHandler<Boolean> handler )
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public void fireEvent( GwtEvent<?> event )
-        {
-            // TODO Auto-generated method stub
-            
-        }
-
-        @Override
         public Boolean getValue()
         {
             return value;
         }
-
-        @Override
-        public void setValue( Boolean value )
-        {
-            this.value = value;
-        }
-
-        @Override
-        public void setValue( Boolean value, boolean fireEvents )
-        {
-            this.value = value;
-        }
-        
     }
 }
 

@@ -1,23 +1,22 @@
 package com.dtornkaew.gwt.validation.client.validators;
 
+import java.util.Map;
+import java.util.MissingResourceException;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
 
 import com.dtornkaew.gwt.validation.client.ValidationResult;
-import com.dtornkaew.gwt.validation.client.validators.NumberValidator.NumberMessageBundle;
-import com.dtornkaew.gwt.validation.client.validators.RequiredValidator.RequiredMessageBundle;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.ui.HasValue;
+import com.dtornkaew.gwt.validation.client.Validator.HasValue;
+import com.dtornkaew.gwt.validation.client.Validator.ValidationMessageBundle;
 
 public class NumberValidatorTest
 {
     @Test
     public void testRequired()
     {
-        Dummy d = new Dummy();
+        Dummy<Integer> d = new Dummy<Integer>();
 
         NumberValidator<Integer> v = new NumberValidator<Integer>( d, new Msg() );
 
@@ -31,8 +30,7 @@ public class NumberValidatorTest
     @Test
     public void testValid()
     {
-        Dummy d = new Dummy();
-        d.setValue( "5" );
+        Dummy<Double> d = new Dummy<Double>( 5d );
 
         NumberValidator<Double> v = new NumberValidator<Double>( d, new Msg() );
         v.setMinValue( 5d );
@@ -48,8 +46,7 @@ public class NumberValidatorTest
     @Test
     public void testMin()
     {
-        Dummy d = new Dummy();
-        d.setValue( "5" );
+        Dummy<Double> d = new Dummy<Double>( 5d );
 
         NumberValidator<Double> v = new NumberValidator<Double>( d, new Msg() );
         v.setMinValue( 6d );
@@ -67,8 +64,7 @@ public class NumberValidatorTest
     @Test
     public void testMax()
     {
-        Dummy d = new Dummy();
-        d.setValue( "5" );
+        Dummy<Long> d = new Dummy<Long>( 5l );
 
         NumberValidator<Long> v = new NumberValidator<Long>( d, new Msg() );
         v.setMinValue( 2l );
@@ -84,55 +80,97 @@ public class NumberValidatorTest
     }
 
     class Msg
-        implements NumberMessageBundle, RequiredMessageBundle
+        implements ValidationMessageBundle
     {
 
-        public String validations_required_required()
+        @Override
+        public boolean getBoolean( String methodName )
+            throws MissingResourceException
         {
-            return "required";
+            // TODO Auto-generated method stub
+            return false;
         }
 
-        public String validation_number_lowerThanMin( String min, String max )
+        @Override
+        public double getDouble( String methodName )
+            throws MissingResourceException
         {
-            return "to low";
+            // TODO Auto-generated method stub
+            return 0;
         }
 
-        public String validation_number_exceedsMax( String min, String max )
+        @Override
+        public float getFloat( String methodName )
+            throws MissingResourceException
         {
-            return "to high";
+            // TODO Auto-generated method stub
+            return 0;
         }
-    }
 
-    class Dummy
-        implements HasValue<String>
-    {
-        private String value;
+        @Override
+        public int getInt( String methodName )
+            throws MissingResourceException
+        {
+            // TODO Auto-generated method stub
+            return 0;
+        }
 
-        public HandlerRegistration addValueChangeHandler( ValueChangeHandler<String> handler )
+        @Override
+        public Map<String, String> getMap( String methodName )
+            throws MissingResourceException
         {
             // TODO Auto-generated method stub
             return null;
         }
 
-        public void fireEvent( GwtEvent<?> event )
+        @Override
+        public String getString( String methodName )
+            throws MissingResourceException
+        {
+            if( "validation_required_required".equals( methodName ) )
+            {
+                return "required";
+            }
+            else if( "validation_number_lowerThanMin".equals( methodName ) )
+            {
+                return "to low";
+            }
+            else if( "validation_number_exceedsMax".equals( methodName ) )
+            {
+                return "to high";
+            }
+            return "";
+        }
+
+        @Override
+        public String[] getStringArray( String methodName )
+            throws MissingResourceException
         {
             // TODO Auto-generated method stub
-
+            return null;
         }
 
-        public String getValue()
+    }
+
+    class Dummy<T>
+        implements HasValue<T>
+    {
+        private T value;
+        
+        public Dummy()
+        {
+            
+        }
+
+        public Dummy( T value )
+        {
+            this.value = value;
+        }
+        
+        @Override
+        public T getValue()
         {
             return value;
-        }
-
-        public void setValue( String value )
-        {
-            this.value = value;
-        }
-
-        public void setValue( String value, boolean fireEvents )
-        {
-            this.value = value;
         }
 
     }

@@ -1,21 +1,20 @@
 package com.dtornkaew.gwt.validation.client.validators;
 
-import com.dtornkaew.gwt.validation.client.Validator.HasValue;
 
-public class HasTrueValidator
-    extends RequiredValidator<HasValue<Boolean>[]>
+public class HasGwtTrueValidator
+    extends RequiredValidator<com.google.gwt.user.client.ui.HasValue<Boolean>[]>
 {
-    public HasTrueValidator( HasValue<Boolean>[] target, ValidationMessageBundle bundle )
+    public HasGwtTrueValidator( com.google.gwt.user.client.ui.HasValue<Boolean>[] target, ValidationMessageBundle bundle )
     {
         this( DEFAULT_PREFIX, DEFAULT_KEY, target, bundle );
     }
-
-    public HasTrueValidator( String prefix, HasValue<Boolean>[] target, ValidationMessageBundle bundle )
+    
+    public HasGwtTrueValidator( String prefix, com.google.gwt.user.client.ui.HasValue<Boolean>[] target, ValidationMessageBundle bundle )
     {
         this( prefix, DEFAULT_KEY, target, bundle );
     }
-    
-    public HasTrueValidator( String prefix, String key, HasValue<Boolean>[] target, ValidationMessageBundle bundle )
+
+    public HasGwtTrueValidator( String prefix, String key, com.google.gwt.user.client.ui.HasValue<Boolean>[] target, ValidationMessageBundle bundle )
     {
         super( prefix, key, target, bundle );
     }
