@@ -15,7 +15,7 @@ public class RequiredValidator<T>
     
     public RequiredValidator( T target, ValidationMessageBundle bundle )
     {
-        this( DEFAULT_KEY, DEFAULT_PREFIX, target, bundle );
+        this( DEFAULT_PREFIX, DEFAULT_KEY, target, bundle );
     }
     
     public RequiredValidator( String prefix, T target, ValidationMessageBundle bundle )

@@ -62,41 +62,43 @@ public class NumberValidator<N>
         
         if( result.getErrors().size() == 0 )
         {
-            String v = String.valueOf( getValue() );
-            if( v == null || "".equals( v ) )
-                v = "0";
+            Object o = getValue();
+            String v = String.valueOf( o );
+            if( o != null && v != null && !"".equals( v ) )
+            { 
             
-            if( minValue instanceof Double )
-            {
-                final Double d = Double.valueOf( v );
-                if( minValue != null && d < (Double)minValue )
-                    result.addError( result.new ValidationError<ErrorCodes>( ErrorCodes.LOWER_THAN_MIN, messageProvider ) );
-                else if( maxValue != null && d > (Double)maxValue )
-                    result.addError( result.new ValidationError<ErrorCodes>( ErrorCodes.EXCEEDS_MAX, messageProvider ) );
-            }
-            else if( minValue instanceof Integer )
-            {
-                final Integer i = Integer.valueOf( v );
-                if( minValue != null && i < (Integer)minValue )
-                    result.addError( result.new ValidationError<ErrorCodes>( ErrorCodes.LOWER_THAN_MIN, messageProvider ) );
-                else if( maxValue != null && i > (Integer)maxValue )
-                    result.addError( result.new ValidationError<ErrorCodes>( ErrorCodes.EXCEEDS_MAX, messageProvider ) );
-            }
-            else if( minValue instanceof Float )
-            {
-                final Float f = Float.valueOf( v );
-                if( minValue != null && f < (Float)minValue )
-                    result.addError( result.new ValidationError<ErrorCodes>( ErrorCodes.LOWER_THAN_MIN, messageProvider ) );
-                else if( maxValue != null && f > (Float)maxValue )
-                    result.addError( result.new ValidationError<ErrorCodes>( ErrorCodes.EXCEEDS_MAX, messageProvider ) );
-            }
-            else if( minValue instanceof Long )
-            {
-                final Long l = Long.valueOf( v );
-                if( minValue != null && l < (Long)minValue )
-                    result.addError( result.new ValidationError<ErrorCodes>( ErrorCodes.LOWER_THAN_MIN, messageProvider ) );
-                else if( maxValue != null && l > (Long)maxValue )
-                    result.addError( result.new ValidationError<ErrorCodes>( ErrorCodes.EXCEEDS_MAX, messageProvider ) );
+                if( minValue instanceof Double )
+                {
+                    final Double d = Double.valueOf( v );
+                    if( minValue != null && d < (Double)minValue )
+                        result.addError( result.new ValidationError<ErrorCodes>( ErrorCodes.LOWER_THAN_MIN, messageProvider ) );
+                    else if( maxValue != null && d > (Double)maxValue )
+                        result.addError( result.new ValidationError<ErrorCodes>( ErrorCodes.EXCEEDS_MAX, messageProvider ) );
+                }
+                else if( minValue instanceof Integer )
+                {
+                    final Integer i = Integer.valueOf( v );
+                    if( minValue != null && i < (Integer)minValue )
+                        result.addError( result.new ValidationError<ErrorCodes>( ErrorCodes.LOWER_THAN_MIN, messageProvider ) );
+                    else if( maxValue != null && i > (Integer)maxValue )
+                        result.addError( result.new ValidationError<ErrorCodes>( ErrorCodes.EXCEEDS_MAX, messageProvider ) );
+                }
+                else if( minValue instanceof Float )
+                {
+                    final Float f = Float.valueOf( v );
+                    if( minValue != null && f < (Float)minValue )
+                        result.addError( result.new ValidationError<ErrorCodes>( ErrorCodes.LOWER_THAN_MIN, messageProvider ) );
+                    else if( maxValue != null && f > (Float)maxValue )
+                        result.addError( result.new ValidationError<ErrorCodes>( ErrorCodes.EXCEEDS_MAX, messageProvider ) );
+                }
+                else if( minValue instanceof Long )
+                {
+                    final Long l = Long.valueOf( v );
+                    if( minValue != null && l < (Long)minValue )
+                        result.addError( result.new ValidationError<ErrorCodes>( ErrorCodes.LOWER_THAN_MIN, messageProvider ) );
+                    else if( maxValue != null && l > (Long)maxValue )
+                        result.addError( result.new ValidationError<ErrorCodes>( ErrorCodes.EXCEEDS_MAX, messageProvider ) );
+                }
             }
         }
         

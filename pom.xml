@@ -80,6 +80,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.google.code.gwtx</groupId>
+			<artifactId>gwtx</artifactId>
+			<version>1.5.3</version>
+		</dependency>
+
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.8.2</version>
