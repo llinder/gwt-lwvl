@@ -45,7 +45,7 @@ public class RequiredValidator<T>
     @Override
     protected Object getValue()
     {
-        if( target instanceof HasValue<?> )
+        if( target instanceof com.dtornkaew.gwt.validation.client.Validator.HasValue<?> )
             return ((Validator.HasValue<?>)target).getValue();
         if( target instanceof com.google.gwt.user.client.ui.HasValue<?> )
             return ((com.google.gwt.user.client.ui.HasValue<?>)target).getValue();
