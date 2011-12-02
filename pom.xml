@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.mhi.p.forge</groupId>
 		<artifactId>forge-parent</artifactId>
-		<version>1.0</version>
+		<version>1.1</version>
 		<relativePath />
 	</parent>
 
@@ -19,6 +19,10 @@
 	<properties>
 		<gwt.version>2.3.0</gwt.version>
 		<gwt.mojo.version>2.3.0-1</gwt.mojo.version>
+		
+		<scm.url>https://github.com/llinder/gwt-lwvl</scm.url>
+		<scm.connection>scm:git:git@github.com:llinder/gwt-lwvl.git</scm.connection>
+		<scm.developerConnection>scm:git:git@github.com:llinder/gwt-lwvl.git</scm.developerConnection>
 	</properties>
 
 	<build>
@@ -93,5 +97,24 @@
 		</dependency>
 
 	</dependencies>
+	
+	<scm>
+		<connection>${scm.connection}</connection>
+		<developerConnection>${scm.developerConnection}</developerConnection>
+		<url>${scm.url}</url>
+	</scm>
+
+	<distributionManagement>
+		<repository>
+			<id>${repo.release.id}</id>
+			<name>Internal Releases</name>
+			<url>${repo.release.url}</url>
+		</repository>
+		<snapshotRepository>
+			<id>${repo.snapshot.id}</id>
+			<name>Internal Snapshots</name>
+			<url>${repo.snapshot.url}</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 </project>
